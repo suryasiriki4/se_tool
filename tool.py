@@ -125,6 +125,8 @@ def get_answers_to_questions(question_ids):
 
 
 def store_questions(question_ids):
+    """ storing the top serach questions as tuples """
+
     questions = []
 
     for question_id in question_ids:
@@ -148,6 +150,7 @@ def store_questions(question_ids):
     return questions
 
 def print_results(QUSTION_IDS, QUESTIONS, ANSWERS):
+    """ prining all the result to terminal """
 
     num_of_results = len(QUSTION_IDS)
 
