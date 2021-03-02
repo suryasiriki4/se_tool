@@ -1,3 +1,6 @@
+# regular expression
+# install numpy
+# python3 -c "import nltk; nltk.download('punkt')"
 import re
 import sys
 import os
@@ -8,10 +11,15 @@ import googlesearch
 from html2text import html2text
 
 import random
+import sumy
 
 from utils import ANSWERS_URL, QUESTIONS_URL
 from utils import Question, Answer
 from storage import QUESTIONS, ANSWERS, QUSTION_IDS
+
+from sumy.parsers.plaintext import PlaintextParser
+from sumy.nlp.tokenizers import Tokenizer
+from sumy.summarizers.lex_rank import LexRankSummarizer
 
 SO_URL = "https://stackoverflow.com"
 
@@ -147,11 +155,22 @@ def store_questions(question_ids):
 
     return questions
 
+
+
 def print_results(QUSTION_IDS, QUESTIONS, ANSWERS):
 
     num_of_results = len(QUSTION_IDS)
 
+
+
+    
     for i in range(num_of_results):
+        answer = ANSWERS[i].body
+        parser = PlaintextParser.from_string(answer,Tokenizer("english"))
+    
+        summarizer = LexRankSummarizer()
+        summary = summarizer(parser.document,10);
+
         print(' ')
         print("#####################################################################################################")
         print(' ')
@@ -165,8 +184,9 @@ def print_results(QUSTION_IDS, QUESTIONS, ANSWERS):
         print(' ')
         print(' ')
         print("Answer: ")
-        print(' ')
-        print(ANSWERS[i].body)
+    
+        for sentence in summary :
+            print(sentence)
 
     return
 
